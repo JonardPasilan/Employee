@@ -1,0 +1,241 @@
+:root {
+  /* Brand (10% accent) - Medical Blue Hue */
+  --color-brand:       hsl(215, 70%, 45%);   /* Primary CTA, active states */
+  --color-brand-light: hsl(215, 70%, 96%);   /* Brand tint for backgrounds */
+  --color-brand-dark:  hsl(215, 70%, 35%);   /* Brand hover / pressed states */
+
+  /* Surfaces (60% canvas, 30% secondary) */
+  --color-canvas:   hsl(210, 20%, 98%);      /* Page background (60%) */
+  --color-surface:  hsl(0, 0%, 100%);        /* Card / panel (30%) */
+  --color-overlay:  hsl(210, 15%, 95%);      /* Sidebar, input bg */
+
+  /* Semantic Hues */
+  --color-success: hsl(150, 70%, 40%);
+  --color-danger:  hsl(0, 75%, 55%);
+  --color-warning: hsl(35, 90%, 50%);
+
+  /* Text Hierarchy */
+  --color-text-primary:   hsl(222, 47%, 11%);
+  --color-text-secondary: hsl(215, 16%, 47%);
+  --color-text-muted:     hsl(215, 13%, 70%);
+
+  /* Borders (Rule #2: Visible borders) */
+  --color-border:        hsl(214, 30%, 88%); /* Default border */
+  --color-border-strong: hsl(214, 30%, 78%); /* Hover / emphasis border */
+
+  /* Shadows (Rule #8) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.09), 0 4px 8px rgba(0, 0, 0, 0.05);
+
+  /* Border radius scale (Rule #9) */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-full: 9999px;
+
+  /* Transitions (Rule #10) */
+  --transition-fast: 100ms ease;
+  --transition-base: 180ms ease;
+  --transition-slow: 320ms ease;
+
+  /* Type scale (Rule #7) */
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-md:   17px;
+  --text-lg:   20px;
+  --text-xl:   24px;
+  --text-2xl:  30px;
+  --text-3xl:  40px;
+}
+
+/* Dark Mode Overrides (Rule #11: Premium Aesthetics) */
+[data-theme="dark"] {
+  --color-brand:       hsl(215, 80%, 60%);   /* Vibrant blue for dark mode */
+  --color-brand-light: hsl(215, 30%, 15%);   /* Dark brand tint */
+  --color-brand-dark:  hsl(215, 80%, 70%);   /* Brighter for contrast */
+
+  --color-canvas:   hsl(222, 47%, 7%);      /* Deep midnight canvas */
+  --color-surface:  hsl(222, 47%, 11%);     /* Surface slightly lighter */
+  --color-overlay:  hsl(222, 40%, 15%);     /* Overlays / sidebars */
+
+  --color-text-primary:   hsl(210, 20%, 98%);
+  --color-text-secondary: hsl(215, 16%, 75%);
+  --color-text-muted:     hsl(215, 13%, 45%);
+
+  --color-border:        hsl(222, 30%, 18%);
+  --color-border-strong: hsl(222, 30%, 25%);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  
+  /* Tint the inputs slightly for better depth */
+  --input-bg: hsl(222, 47%, 13%);
+}
+
+/* Base Styles */
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  color: var(--color-text-primary);
+  margin: 0;
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-base);
+}
+
+button, .btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+}
+
+/* Global Transition Layer (Rule #10) */
+button, a, [role="button"], input, select, textarea {
+  transition: 
+    color var(--transition-base),
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base),
+    opacity var(--transition-base);
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Form Styles */
+.field-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-light);
+}
+
+input[disabled] {
+  background: var(--color-overlay);
+  cursor: not-allowed;
+}
+
+/* Modal Component (Rule #1: Visual Hierarchy) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+  transform: translateY(20px);
+  transition: transform var(--transition-base);
+}
+
+.modal.is-open .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+}
+
+.modal-body {
+  margin-bottom: 24px;
+  color: var(--color-text-secondary);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
