@@ -71,7 +71,6 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
 ?>
 
 <div class="container employees-page">
-<div class="container employees-page">
     <style>
         /* Contextual overrides for Employees dashboard */
         .page-header {
@@ -494,7 +493,6 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
             echo '<a class="page-item" href="employees.php' . $queryStr . 'page=' . $nextPage . '">Next →</a>';
         ?>
     </div>
-</div>
 </div>
 
 <!-- HIDDEN DELETE FORM -->

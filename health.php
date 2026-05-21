@@ -237,7 +237,7 @@ $isAdd = $mode === 'add';
             <div class="step-pill" data-step-ind="11">XI. Final Class</div>
         </div>
 
-        <form id="healthWizardForm" method="POST" action="save_health.php">
+        <form id="healthWizardForm" method="POST" action="save_health.php" autocomplete="off">
             <input type="hidden" name="employee_id" value="<?php echo h($id); ?>">
             <input type="hidden" name="mode" value="<?php echo h($mode); ?>">
             <input type="hidden" name="save" value="1">
@@ -432,92 +432,92 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <div class="check">
                     <input type="checkbox" name="past_allergy" value="1" <?php echo !empty($pastMedical['allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Allergy</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Allergy</span>
                 </div>
 
                 <div class="check">
                     <input type="checkbox" name="past_food_allergy" value="1" <?php echo !empty($pastMedical['food_allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Food</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Food</div>
                         <input type="text" name="food_allergy_specify" value="<?php echo h($pastMedical['food_allergy_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
                 <div class="check">
                     <input type="checkbox" name="past_drug_allergy" value="1" <?php echo !empty($pastMedical['drug_allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Drug</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Drug</span>
                 </div>
 
                 <div class="check">
                     <input type="checkbox" name="past_epilepsy_seizure_disorder" value="1" <?php echo !empty($pastMedical['epilepsy_seizure_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Epilepsy/Seizure Disorder</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Epilepsy/Seizure Disorder</div>
                         <input type="text" name="epilepsy_specify" value="<?php echo h($pastMedical['epilepsy_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
                 <label class="check">
                     <input type="checkbox" name="past_asthma" value="1" <?php echo !empty($pastMedical['asthma']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Asthma</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Asthma</span>
                 </label>
 
                 <label class="check">
                     <input type="checkbox" name="past_congenital_heart_disorder" value="1" <?php echo !empty($pastMedical['congenital_heart_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Congenital Heart Disorder</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Congenital Heart Disorder</span>
                 </label>
 
                 <label class="check">
                     <input type="checkbox" name="past_thyroid_disease" value="1" <?php echo !empty($pastMedical['thyroid_disease']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Thyroid Disease</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Thyroid Disease</span>
                 </label>
 
                 <div class="check">
                     <input type="checkbox" name="past_skin_disorder" value="1" <?php echo !empty($pastMedical['skin_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Skin Disorder</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Skin Disorder</div>
                         <input type="text" name="skin_disorder_specify" value="<?php echo h($pastMedical['skin_disorder_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
                 <label class="check">
                     <input type="checkbox" name="past_cancer" value="1" <?php echo !empty($pastMedical['cancer']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Cancer</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Cancer</span>
                 </label>
 
                 <label class="check">
                     <input type="checkbox" name="past_diabetes_heart_disorder" value="1" <?php echo !empty($pastMedical['diabetes_heart_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Diabetes Heart Disorder</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Diabetes Heart Disorder</span>
                 </label>
 
                 <label class="check">
                     <input type="checkbox" name="past_peptic_ulcer" value="1" <?php echo !empty($pastMedical['peptic_ulcer']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Peptic Ulcer</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Peptic Ulcer</span>
                 </label>
 
                 <div class="check">
                     <input type="checkbox" name="past_tuberculosis" value="1" <?php echo !empty($pastMedical['tuberculosis']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Tuberculosis</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Tuberculosis</div>
                         <input type="text" name="tuberculosis_specify" value="<?php echo h($pastMedical['tuberculosis_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
                 <label class="check">
                     <input type="checkbox" name="past_coronary_artery_disease" value="1" <?php echo !empty($pastMedical['coronary_artery_disease']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Coronary Artery Disease</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Coronary Artery Disease</span>
                 </label>
 
                 <div class="check" style="grid-column:1 / -1;"></div>
 
                 <label class="check">
                     <input type="checkbox" name="past_pcos" value="1" <?php echo !empty($pastMedical['pcos']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">PCOS</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">PCOS</span>
                 </label>
 
                 <div class="check">
                     <input type="checkbox" name="past_hepatitis" value="1" <?php echo !empty($pastMedical['hepatitis']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Hepatitis</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Hepatitis</div>
                         <input type="text" name="hepatitis_specify" value="<?php echo h($pastMedical['hepatitis_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
@@ -525,7 +525,7 @@ $isAdd = $mode === 'add';
                 <div class="check">
                     <input type="checkbox" name="past_hypertension_elevated_bp" value="1" <?php echo !empty($pastMedical['hypertension_elevated_bp']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Hypertension/Elevated BP</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Hypertension/Elevated BP</div>
                         <input type="text" name="hypertension_specify" value="<?php echo h($pastMedical['hypertension_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
@@ -533,7 +533,7 @@ $isAdd = $mode === 'add';
                 <div class="check">
                     <input type="checkbox" name="past_psychological_disorder" value="1" <?php echo !empty($pastMedical['psychological_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;margin-bottom:6px;">Psychological Disorder</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Psychological Disorder</div>
                         <input type="text" name="psychological_disorder_specify" value="<?php echo h($pastMedical['psychological_disorder_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
@@ -693,7 +693,7 @@ $isAdd = $mode === 'add';
             foreach ($examCategories as $key => $label):
                 $statusKey = 'pe_' . $key . '_status';
                 $findingsKey = 'pe_' . $key . '_findings';
-                $status = $physical[$statusKey] ?? 'Normal';
+                $status = $physical[$statusKey] ?? '';
                 $findings = $physical[$findingsKey] ?? '';
             ?>
             <div class="form-row" style="margin-top:14px;">
@@ -736,14 +736,8 @@ $isAdd = $mode === 'add';
             foreach ($ancillaryTests as $key => $label):
                 $statusKey = 'anc_' . $key . '_status';
                 $findingsKey = 'anc_' . $key . '_findings';
-                $status = $ancillary[$statusKey] ?? 'Normal';
+                $status = $ancillary[$statusKey] ?? '';
                 $findings = $ancillary[$findingsKey] ?? '';
-                
-                if ($key === 'pregnancy_test') {
-                    $status = $ancillary[$statusKey] ?? 'Negative';
-                } elseif ($key === 'hbsag') {
-                    $status = $ancillary[$statusKey] ?? 'Non-Reactive';
-                }
             ?>
             <div class="form-row" style="margin-top:14px;">
                 <div class="field">
@@ -837,11 +831,11 @@ $isAdd = $mode === 'add';
             }
             ?>
 
-            <div style="margin-top:14px;padding:16px;background:#f8fafc;border-radius:10px;border:1px solid #e9ecef;">
+            <div style="margin-top:14px;padding:16px;background:var(--color-overlay);border-radius:10px;border:1px solid var(--color-border);">
                 <label style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;cursor:pointer;">
                     <input type="radio" name="classification_final" value="REGULAR" <?php echo $finalClass === 'REGULAR' ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?> style="margin-top:3px;">
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;">REGULAR - Medically, physically, and mentally FIT for ANY WORK or STUDY</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);">REGULAR - Medically, physically, and mentally FIT for ANY WORK or STUDY</div>
                         <div class="muted" style="margin-top:4px;">No medical conditions or limitations</div>
                     </div>
                 </label>
@@ -849,7 +843,7 @@ $isAdd = $mode === 'add';
                 <label style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;cursor:pointer;">
                     <input type="radio" name="classification_final" value="JOB ORDER" <?php echo $finalClass === 'JOB ORDER' ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?> style="margin-top:3px;">
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;">JOB ORDER - Physically underdeveloped or with correctible defects but FIT TO WORK or STUDY</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);">JOB ORDER - Physically underdeveloped or with correctible defects but FIT TO WORK or STUDY</div>
                         <div class="muted" style="margin-top:4px;">Minor conditions that can be corrected</div>
                     </div>
                 </label>
@@ -857,7 +851,7 @@ $isAdd = $mode === 'add';
                 <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;">
                     <input type="radio" name="classification_final" value="CONTRACT OF SERVICE" <?php echo $finalClass === 'CONTRACT OF SERVICE' ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?> style="margin-top:3px;">
                     <div>
-                        <div style="font-weight:800;color:#2c3e50;">CONTRACT OF SERVICE - With medical condition requiring further evaluation or limitation</div>
+                        <div style="font-weight:800;color:var(--color-text-primary);">CONTRACT OF SERVICE - With medical condition requiring further evaluation or limitation</div>
                         <div class="muted" style="margin-top:4px;">Requires additional assessment or work restrictions</div>
                     </div>
                 </label>
@@ -1217,7 +1211,7 @@ $isAdd = $mode === 'add';
 
             <div class="form-row" style="margin-top:8px;">
                 <div class="field" style="grid-column:1 / -1;">
-                    <div class="muted" style="font-size:11px;padding:8px;background:#f8f9fa;border-radius:6px;">
+                    <div class="muted" style="font-size:11px;padding:8px;background:var(--color-overlay);border-radius:6px;">
                         <strong>Legend for COVID-19 Brand Names:</strong> PF-Pfizer; MO-Moderna; SN-Sinovac; AZ-AstraZeneca; SP-Sputnik; JJ-Janssen; SP-Sinopharm
                     </div>
                 </div>
@@ -1427,15 +1421,15 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="neuro_normal_thought" value="1" <?php echo !empty($profile['neuro_normal_thought']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal thought processes</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal thought processes</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="neuro_normal_emotional" value="1" <?php echo !empty($profile['neuro_normal_emotional']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Emotional Status</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Emotional Status</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="neuro_normal_psychological" value="1" <?php echo !empty($profile['neuro_normal_psychological']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Psychological Status</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Psychological Status</span>
                 </label>
             </div>
             <div class="form-row" style="margin-top:14px;">
@@ -1453,43 +1447,43 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="heent_anicteric_sclerae" value="1" <?php echo !empty($profile['heent_anicteric_sclerae']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Anicteric sclerae</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Anicteric sclerae</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_perla" value="1" <?php echo !empty($profile['heent_perla']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">PERLA</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">PERLA</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_aural_discharge" value="1" <?php echo !empty($profile['heent_aural_discharge']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Aural Discharge</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Aural Discharge</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_intact_tympanic" value="1" <?php echo !empty($profile['heent_intact_tympanic']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Intact Tympanic Membrane</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Intact Tympanic Membrane</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_nasal_flaring" value="1" <?php echo !empty($profile['heent_nasal_flaring']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Nasal Flaring</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Nasal Flaring</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_nasal_discharge" value="1" <?php echo !empty($profile['heent_nasal_discharge']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Nasal Discharge</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Nasal Discharge</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_tonsillopharyngeal" value="1" <?php echo !empty($profile['heent_tonsillopharyngeal']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Tonsillopharyngeal congestion</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Tonsillopharyngeal congestion</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_hypertension_tonsils" value="1" <?php echo !empty($profile['heent_hypertension_tonsils']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Hypertension tonsils</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Hypertension tonsils</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_palpable_mass" value="1" <?php echo !empty($profile['heent_palpable_mass']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Palpable Mass</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Palpable Mass</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="heent_exudates" value="1" <?php echo !empty($profile['heent_exudates']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Exudates</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Exudates</span>
                 </label>
             </div>
 
@@ -1497,27 +1491,27 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="resp_normal_heart_beat_sounds" value="1" <?php echo !empty($profile['resp_normal_heart_beat_sounds']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Heart Beat sounds</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Heart Beat sounds</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="resp_symmetrical_chest" value="1" <?php echo !empty($profile['resp_symmetrical_chest']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Symmetrical Chest Expansion</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Symmetrical Chest Expansion</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="resp_restrictions" value="1" <?php echo !empty($profile['resp_restrictions']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Restrictions</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Restrictions</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="resp_crackles_rates" value="1" <?php echo !empty($profile['resp_crackles_rates']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Crackles/Rates</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Crackles/Rates</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="resp_wheezing" value="1" <?php echo !empty($profile['resp_wheezing']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Wheezing</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Wheezing</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="resp_clear_breath_sounds" value="1" <?php echo !empty($profile['resp_clear_breath_sounds']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Clear breath sounds</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Clear breath sounds</span>
                 </label>
             </div>
 
@@ -1525,35 +1519,35 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="cardio_normal_heart_beat" value="1" <?php echo !empty($profile['cardio_normal_heart_beat']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Heart Beat</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Heart Beat</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_clubbing_fingers" value="1" <?php echo !empty($profile['cardio_clubbing_fingers']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Clubbing of fingers</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Clubbing of fingers</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_finger_discoloration" value="1" <?php echo !empty($profile['cardio_finger_discoloration']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Finger Discoloration</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Finger Discoloration</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_heart_murmur" value="1" <?php echo !empty($profile['cardio_heart_murmur']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Heart Murmur</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Heart Murmur</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_irregular_heart_beat" value="1" <?php echo !empty($profile['cardio_irregular_heart_beat']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Irregular Heart Beat</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Irregular Heart Beat</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_palpitations" value="1" <?php echo !empty($profile['cardio_palpitations']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Palpitations</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Palpitations</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_fluid_volume_excess" value="1" <?php echo !empty($profile['cardio_fluid_volume_excess']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Fluid Volume Excess</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Fluid Volume Excess</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="cardio_fatigue_mobility" value="1" <?php echo !empty($profile['cardio_fatigue_mobility']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Fatigue on mobility</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Fatigue on mobility</span>
                 </label>
             </div>
 
@@ -1561,19 +1555,19 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="gastro_regular_bowel" value="1" <?php echo !empty($profile['gastro_regular_bowel']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Regular Bowel Movement</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Regular Bowel Movement</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="gastro_constipation" value="1" <?php echo !empty($profile['gastro_constipation']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Constipation</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Constipation</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="gastro_loose_bowel" value="1" <?php echo !empty($profile['gastro_loose_bowel']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Loose bowel movement</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Loose bowel movement</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="gastro_hyperacidity" value="1" <?php echo !empty($profile['gastro_hyperacidity']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Hyperacidity</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Hyperacidity</span>
                 </label>
             </div>
             <div class="form-row" style="margin-top:14px;">
@@ -1591,11 +1585,11 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="urinary_flank_pain" value="1" <?php echo !empty($profile['urinary_flank_pain']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Flank pain</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Flank pain</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="urinary_painful_urination" value="1" <?php echo !empty($profile['urinary_painful_urination']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Painful Urination</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Painful Urination</span>
                 </label>
             </div>
             <div class="form-row" style="margin-top:14px;">
@@ -1613,23 +1607,23 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="integ_pallor" value="1" <?php echo !empty($profile['integ_pallor']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Pallor</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Pallor</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="integ_rashes" value="1" <?php echo !empty($profile['integ_rashes']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Rashes</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Rashes</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="integ_jaundice" value="1" <?php echo !empty($profile['integ_jaundice']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Jaundice</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Jaundice</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="integ_good_skin_turgor" value="1" <?php echo !empty($profile['integ_good_skin_turgor']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Good skin turgor</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Good skin turgor</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="integ_cyanosis" value="1" <?php echo !empty($profile['integ_cyanosis']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Cyanosis</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Cyanosis</span>
                 </label>
             </div>
 
@@ -1637,15 +1631,15 @@ $isAdd = $mode === 'add';
             <div class="inline-checks">
                 <label class="check">
                     <input type="checkbox" name="extrem_gross_deformity" value="1" <?php echo !empty($profile['extrem_gross_deformity']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Gross Deformity</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Gross Deformity</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="extrem_normal_gait" value="1" <?php echo !empty($profile['extrem_normal_gait']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Gait</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Gait</span>
                 </label>
                 <label class="check">
                     <input type="checkbox" name="extrem_normal_strength" value="1" <?php echo !empty($profile['extrem_normal_strength']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:#2c3e50;">Normal Strength</span>
+                    <span style="font-weight:800;color:var(--color-text-primary);">Normal Strength</span>
                 </label>
             </div>
             <div class="form-row" style="margin-top:14px;">
@@ -1666,7 +1660,7 @@ $isAdd = $mode === 'add';
         <!-- STEP 8: PHYSICAL SCREENING & EXAMINATION -->
         <div class="wizard-page" data-step="8">
             <div class="section-title">VIII. PHYSICAL SCREENING</div>
-            <p style="font-size:13px;color:#546e7a;margin-bottom:14px;">Please check(/) appropriate box or supply needed information.</p>
+            <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px;">Please check(/) appropriate box or supply needed information.</p>
             
             <?php
             $va8 = (string)($physical['visual_acuity_type'] ?? $profile['visual_acuity_type'] ?? '');
@@ -1816,9 +1810,7 @@ $isAdd = $mode === 'add';
                 <button class="btn-secondary" type="button" id="nextBtn">Next →</button>
                 <?php if (!$isView): ?>
                     <button class="btn-primary" type="submit" name="save">Save Health Profile</button>
-                <?php endif; ?>
-                <?php if ($isView): ?>
-                    <a class="btn-outline" href="employees.php">Close</a>
+            
                 <?php endif; ?>
                 <a class="btn-outline" href="employees.php">Cancel</a>
             </div>

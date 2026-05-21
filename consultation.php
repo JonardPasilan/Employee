@@ -34,7 +34,7 @@ if ($cid > 0) {
 $isView = $mode === 'view';
 ?>
 
-<div class="container consultation-page" style="max-width: 900px;">
+<div class="container consultation-page" style="max-width: 1200px;">
     <div style="background: var(--color-brand); color: white; padding: 24px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm);">
         <div>
             <h2 style="margin:0; color: white; font-size: var(--text-xl); letter-spacing: -0.5px;">Medical Consultation</h2>
@@ -146,6 +146,29 @@ $isView = $mode === 'view';
 
     <?php if ($mode === 'list'): ?>
     <div class="consult-container">
+
+        <?php
+        // Flash messages from save redirect
+        $flashSuccess = $_GET['success'] ?? '';
+        $flashError   = $_GET['error'] ?? '';
+        if ($flashSuccess === 'consultation_saved'): ?>
+            <div style="background: hsl(160,84%,95%); border: 1px solid hsl(160,84%,75%); color: hsl(160,50%,30%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                ✅ Consultation record saved successfully.
+            </div>
+        <?php elseif ($flashSuccess === 'consultation_updated'): ?>
+            <div style="background: hsl(210,84%,95%); border: 1px solid hsl(210,84%,75%); color: hsl(210,50%,30%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                ✏️ Consultation record updated successfully.
+            </div>
+        <?php elseif ($flashError === 'save_failed'): ?>
+            <div style="background: hsl(0,75%,95%); border: 1px solid hsl(0,75%,80%); color: hsl(0,50%,35%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                ❌ Failed to save the record. Please try again.
+            </div>
+        <?php elseif ($flashSuccess === 'deleted'): ?>
+            <div style="background: hsl(0,75%,95%); border: 1px solid hsl(0,75%,80%); color: hsl(0,50%,35%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                🗑️ Consultation record deleted.
+            </div>
+        <?php endif; ?>
+
         <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
             <h3 style="margin: 0; font-size: var(--text-lg); color: var(--color-text-primary);">
                 <?php echo $id > 0 ? 'Consultation History for ' . h($employee['name'] ?? 'Employee') : 'All Consultations History'; ?>
@@ -190,7 +213,7 @@ $isView = $mode === 'view';
                         <th>Date & Time</th>
                         <th>Chief Complaint</th>
                         <th>Diagnosis</th>
-                        <th style="width: 100px;">Actions</th>
+                        <th style="width: 150px; text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +235,11 @@ $isView = $mode === 'view';
                             echo '<td style="font-size: 13px; color: var(--color-text-secondary);">' . h($row['diagnosis']) . '</td>';
                             echo '<td>';
                             $rowEmpId = $row['employee_id'] ?? 0;
-                            echo '<a href="consultation.php?id=' . $rowEmpId . '&cid=' . $row['id'] . '&mode=view" class="btn btn-tiny btn-view">View Detail</a>';
+                            echo '<div class="action-group" style="display:flex;gap:6px;justify-content:center;white-space:nowrap;">';
+                            echo '<a href="consultation.php?id=' . $rowEmpId . '&cid=' . $row['id'] . '&mode=view" class="btn btn-tiny btn-view">View</a>';
+                            echo '<a href="consultation.php?id=' . $rowEmpId . '&cid=' . $row['id'] . '&mode=edit" class="btn btn-tiny btn-edit">Edit</a>';
+                            echo '<button class="btn btn-tiny btn-delete" type="button" style="background: hsl(0, 75%, 95%); color: var(--color-danger); border: 1px solid hsl(0, 75%, 85%);" onclick="confirmDelete(' . $row['id'] . ', \'consultation\', ' . $rowEmpId . ')">Del</button>';
+                            echo '</div>';
                             echo '</td>';
                             echo '</tr>';
                         }
@@ -230,6 +257,7 @@ $isView = $mode === 'view';
     <?php else: ?>
     <form method="POST" action="save_consultation.php" class="consult-container">
         <input type="hidden" name="employee_id" value="<?php echo h($id); ?>">
+        <input type="hidden" name="cid" value="<?php echo $cid > 0 ? $cid : ''; ?>">
 
         <!-- Section 1: Personal -->
         <div class="form-section">
@@ -391,11 +419,63 @@ $isView = $mode === 'view';
         <div class="btn-stack">
             <?php if (!$isView): ?>
                 <a href="consultation.php?id=<?php echo $id; ?>&mode=list" class="btn btn-outline">Discard Changes</a>
-                <button type="submit" class="btn btn-brand">Commit Consultation Record</button>
+                <button type="submit" class="btn btn-brand">
+                    <?php echo $cid > 0 ? '💾 Update Consultation Record' : '✅ Commit Consultation Record'; ?>
+                </button>
             <?php else: ?>
+                <a href="consultation.php?id=<?php echo $id; ?>&cid=<?php echo $cid; ?>&mode=edit" class="btn btn-outline" style="border-color:var(--color-brand); color:var(--color-brand);">✏️ Edit This Record</a>
                 <a href="consultation.php?id=<?php echo $id; ?>&mode=list" class="btn btn-outline">Close Record</a>
             <?php endif; ?>
         </div>
     </form>
     <?php endif; ?>
 </div>
+
+<!-- HIDDEN DELETE FORM -->
+<form id="deleteForm" method="POST" action="delete_record.php">
+    <input type="hidden" name="id" id="deleteId">
+    <input type="hidden" name="type" id="deleteType">
+    <input type="hidden" name="employee_id" id="deleteEmployeeId">
+    <input type="hidden" name="delete" value="1">
+</form>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="modal" role="dialog" aria-modal="true" onclick="if(event.target===this) closeModal();">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to permanently delete this record? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-brand" style="background:var(--color-danger);" onclick="deleteNow()">Delete Record</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let deleteId = 0;
+let deleteType = '';
+let deleteEmpId = 0;
+
+function confirmDelete(id, type, empId = 0) {
+    deleteId = id;
+    deleteType = type;
+    deleteEmpId = empId;
+    document.getElementById("deleteModal").classList.add("is-open");
+}
+
+function closeModal() {
+    document.getElementById("deleteModal").classList.remove("is-open");
+}
+
+function deleteNow() {
+    document.getElementById("deleteId").value = deleteId;
+    document.getElementById("deleteType").value = deleteType;
+    document.getElementById("deleteEmployeeId").value = deleteEmpId;
+    document.getElementById("deleteForm").submit();
+}
+</script>
+

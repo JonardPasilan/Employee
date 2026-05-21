@@ -41,54 +41,85 @@ $conn->query("
 ");
 
 // Collect form data
-$employee_id = intval($_POST['employee_id'] ?? 0);
-$full_name = trim($_POST['full_name'] ?? '');
-$sex = trim($_POST['sex'] ?? '');
-$age = !empty($_POST['age']) ? intval($_POST['age']) : 0;
-$birthdate = !empty($_POST['birthdate']) ? $_POST['birthdate'] : '';
-$civil_status = trim($_POST['civil_status'] ?? '');
-$phone = trim($_POST['phone'] ?? '');
-$office = trim($_POST['office'] ?? '');
-$address = trim($_POST['address'] ?? '');
+$cid               = intval($_POST['cid'] ?? 0);
+$employee_id       = intval($_POST['employee_id'] ?? 0);
+$full_name         = trim($_POST['full_name'] ?? '');
+$sex               = trim($_POST['sex'] ?? '');
+$age               = !empty($_POST['age']) ? intval($_POST['age']) : 0;
+$birthdate         = !empty($_POST['birthdate']) ? $_POST['birthdate'] : '';
+$civil_status      = trim($_POST['civil_status'] ?? '');
+$phone             = trim($_POST['phone'] ?? '');
+$office            = trim($_POST['office'] ?? '');
+$address           = trim($_POST['address'] ?? '');
 $consultation_date = !empty($_POST['consultation_date']) ? $_POST['consultation_date'] : date('Y-m-d');
 $consultation_time = !empty($_POST['consultation_time']) ? $_POST['consultation_time'] : date('H:i:s');
-$blood_pressure = trim($_POST['blood_pressure'] ?? '');
-$heart_rate = !empty($_POST['heart_rate']) ? intval($_POST['heart_rate']) : 0;
-$respiratory_rate = !empty($_POST['respiratory_rate']) ? intval($_POST['respiratory_rate']) : 0;
-$o2_saturation = !empty($_POST['o2_saturation']) ? floatval($_POST['o2_saturation']) : 0.0;
-$temperature = !empty($_POST['temperature']) ? floatval($_POST['temperature']) : 0.0;
-$height = !empty($_POST['height']) ? floatval($_POST['height']) : 0.0;
-$weight = !empty($_POST['weight']) ? floatval($_POST['weight']) : 0.0;
-$chief_complaint = trim($_POST['chief_complaint'] ?? '');
-$diagnosis = trim($_POST['diagnosis'] ?? '');
-$notes = trim($_POST['notes'] ?? '');
+$blood_pressure    = trim($_POST['blood_pressure'] ?? '');
+$heart_rate        = !empty($_POST['heart_rate']) ? intval($_POST['heart_rate']) : 0;
+$respiratory_rate  = !empty($_POST['respiratory_rate']) ? intval($_POST['respiratory_rate']) : 0;
+$o2_saturation     = !empty($_POST['o2_saturation']) ? floatval($_POST['o2_saturation']) : 0.0;
+$temperature       = !empty($_POST['temperature']) ? floatval($_POST['temperature']) : 0.0;
+$height            = !empty($_POST['height']) ? floatval($_POST['height']) : 0.0;
+$weight            = !empty($_POST['weight']) ? floatval($_POST['weight']) : 0.0;
+$chief_complaint   = trim($_POST['chief_complaint'] ?? '');
+$diagnosis         = trim($_POST['diagnosis'] ?? '');
+$notes             = trim($_POST['notes'] ?? '');
 $medical_certificate = trim($_POST['medical_certificate'] ?? 'No');
-$certificate_copies = !empty($_POST['certificate_copies']) ? intval($_POST['certificate_copies']) : 1;
+$certificate_copies  = !empty($_POST['certificate_copies']) ? intval($_POST['certificate_copies']) : 1;
 
-// Insert consultation record
-$stmt = $conn->prepare("
-    INSERT INTO consultations (
-        employee_id, full_name, sex, age, birthdate, civil_status, phone, office, address,
-        consultation_date, consultation_time, blood_pressure, heart_rate, respiratory_rate,
-        o2_saturation, temperature, height, weight, chief_complaint, diagnosis, notes,
-        medical_certificate, certificate_copies
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-");
+if ($cid > 0) {
+    // ── UPDATE existing consultation ────────────────────────────────────────
+    $stmt = $conn->prepare("
+        UPDATE consultations SET
+            full_name=?, sex=?, age=?, birthdate=?, civil_status=?, phone=?, office=?, address=?,
+            consultation_date=?, consultation_time=?, blood_pressure=?, heart_rate=?, respiratory_rate=?,
+            o2_saturation=?, temperature=?, height=?, weight=?, chief_complaint=?, diagnosis=?, notes=?,
+            medical_certificate=?, certificate_copies=?
+        WHERE id=? AND employee_id=?
+    ");
 
-$stmt->bind_param(
-    "ississssssssiiddddssssi",
-    $employee_id, $full_name, $sex, $age, $birthdate, $civil_status, $phone, $office, $address,
-    $consultation_date, $consultation_time, $blood_pressure, $heart_rate, $respiratory_rate,
-    $o2_saturation, $temperature, $height, $weight, $chief_complaint, $diagnosis, $notes,
-    $medical_certificate, $certificate_copies
-);
+    $stmt->bind_param(
+        "ssissssssssiiddddssssiii",
+        $full_name, $sex, $age, $birthdate, $civil_status, $phone, $office, $address,
+        $consultation_date, $consultation_time, $blood_pressure, $heart_rate, $respiratory_rate,
+        $o2_saturation, $temperature, $height, $weight, $chief_complaint, $diagnosis, $notes,
+        $medical_certificate, $certificate_copies,
+        $cid, $employee_id
+    );
 
-if ($stmt->execute()) {
-    $stmt->close();
-    header('Location: consultation.php?id=' . $employee_id . '&mode=list&success=consultation_saved');
+    if ($stmt->execute()) {
+        $stmt->close();
+        header('Location: consultation.php?id=' . $employee_id . '&mode=list&success=consultation_updated');
+    } else {
+        $stmt->close();
+        header('Location: consultation.php?id=' . $employee_id . '&mode=list&error=save_failed');
+    }
+
 } else {
-    $stmt->close();
-    header('Location: consultation.php?id=' . $employee_id . '&mode=list&error=save_failed');
+    // ── INSERT new consultation ─────────────────────────────────────────────
+    $stmt = $conn->prepare("
+        INSERT INTO consultations (
+            employee_id, full_name, sex, age, birthdate, civil_status, phone, office, address,
+            consultation_date, consultation_time, blood_pressure, heart_rate, respiratory_rate,
+            o2_saturation, temperature, height, weight, chief_complaint, diagnosis, notes,
+            medical_certificate, certificate_copies
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stmt->bind_param(
+        "ississssssssiiddddssssi",
+        $employee_id, $full_name, $sex, $age, $birthdate, $civil_status, $phone, $office, $address,
+        $consultation_date, $consultation_time, $blood_pressure, $heart_rate, $respiratory_rate,
+        $o2_saturation, $temperature, $height, $weight, $chief_complaint, $diagnosis, $notes,
+        $medical_certificate, $certificate_copies
+    );
+
+    if ($stmt->execute()) {
+        $stmt->close();
+        header('Location: consultation.php?id=' . $employee_id . '&mode=list&success=consultation_saved');
+    } else {
+        $stmt->close();
+        header('Location: consultation.php?id=' . $employee_id . '&mode=list&error=save_failed');
+    }
 }
 exit;
 ?>

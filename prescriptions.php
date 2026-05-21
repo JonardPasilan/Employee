@@ -46,7 +46,7 @@ if ($mode === 'add') {
 }
 ?>
 
-<div class="container consultation-page" style="max-width: 900px;">
+<div class="container consultation-page" style="max-width: 1200px;">
     <div style="background: var(--color-brand); color: white; padding: 24px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm);">
         <div>
             <h2 style="margin:0; color: white; font-size: var(--text-xl); letter-spacing: -0.5px;">Medical Prescriptions</h2>
@@ -121,6 +121,14 @@ if ($mode === 'add') {
 
     <?php if ($mode === 'list'): ?>
     <div class="consult-container">
+        <?php
+        $flashSuccess = $_GET['success'] ?? '';
+        if ($flashSuccess === 'deleted'): ?>
+            <div style="background: hsl(0,75%,95%); border: 1px solid hsl(0,75%,80%); color: hsl(0,50%,35%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
+                🗑️ Prescription record deleted.
+            </div>
+        <?php endif; ?>
+
         <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 0; font-size: var(--text-lg); color: var(--color-text-primary);">Prescriptions History Log</h3>
             <a href="prescriptions.php?mode=add" class="btn btn-brand" style="height: 38px;">+ New Prescription</a>
@@ -134,7 +142,7 @@ if ($mode === 'add') {
                         <th>Patient Name</th>
                         <th>Clinic/Doctor</th>
                         <th>Medicines Prescribed</th>
-                        <th style="width: 100px;">Actions</th>
+                        <th style="width: 150px; text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,7 +173,10 @@ if ($mode === 'add') {
                             echo '<td style="font-size: 13px; color: var(--color-text-secondary);">' . h($row['clinic_doctor']) . '</td>';
                             echo '<td style="font-size: 13px;">' . h($medsText) . '</td>';
                             echo '<td>';
+                            echo '<div class="action-group" style="display:flex;gap:6px;justify-content:center;white-space:nowrap;">';
                             echo '<a href="print_prescription.php?id=' . $row['id'] . '" target="_blank" class="btn btn-tiny btn-view">Print / View</a>';
+                            echo '<button class="btn btn-tiny btn-delete" type="button" style="background: hsl(0, 75%, 95%); color: var(--color-danger); border: 1px solid hsl(0, 75%, 85%);" onclick="confirmDelete(' . $row['id'] . ', \'prescription\')">Del</button>';
+                            echo '</div>';
                             echo '</td>';
                             echo '</tr>';
                         }
@@ -202,7 +213,7 @@ if ($mode === 'add') {
                 </div>
                 <div class="field-group">
                     <label class="field-label">Clinic / Doctor</label>
-                    <input type="text" name="clinic_doctor" value="Dr. Val Acosta Clinic" required>
+                    <input type="text" name="clinic_doctor" placeholder="e.g. Dr. Juan dela Cruz" required>
                 </div>
             </div>
 
@@ -338,4 +349,48 @@ if ($mode === 'add') {
             document.getElementById('catField').value = emp.category || '';
         }
     }
+</script>
+
+<!-- HIDDEN DELETE FORM -->
+<form id="deleteForm" method="POST" action="delete_record.php">
+    <input type="hidden" name="id" id="deleteId">
+    <input type="hidden" name="type" id="deleteType">
+    <input type="hidden" name="delete" value="1">
+</form>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="modal" role="dialog" aria-modal="true" onclick="if(event.target===this) closeModal();">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to permanently delete this record? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-brand" style="background:var(--color-danger);" onclick="deleteNow()">Delete Record</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let deleteId = 0;
+let deleteType = '';
+
+function confirmDelete(id, type) {
+    deleteId = id;
+    deleteType = type;
+    document.getElementById("deleteModal").classList.add("is-open");
+}
+
+function closeModal() {
+    document.getElementById("deleteModal").classList.remove("is-open");
+}
+
+function deleteNow() {
+    document.getElementById("deleteId").value = deleteId;
+    document.getElementById("deleteType").value = deleteType;
+    document.getElementById("deleteForm").submit();
+}
 </script>

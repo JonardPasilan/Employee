@@ -224,7 +224,6 @@
     </div>
     <div style="display: flex; align-items: center; gap: 20px;">
         <div class="nav-links">
-            <a href="employees.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'employees.php' ? 'active' : ''; ?>">Dashboard</a>
         </div>
         <div class="theme-toggle" id="themeToggle" title="Toggle Theme">🌓</div>
     </div>
@@ -239,21 +238,21 @@
     </div>
        <hr style="margin: 16px 24px; border: 0; border-top: 1px solid var(--color-border);">
         <a href="employees.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'employees.php' ? 'active' : ''; ?>">
-            <i>🏠</i> Dashboard
+             Dashboard
 
         </a>
 
        <a href="health.php?mode=add&id=0" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'health.php' ? 'active' : ''; ?>">
-            <i>➕</i> New Profile
-
+            New Profile
+        </a>
         <a href="consultation.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'consultation.php' ? 'active' : ''; ?>">
-            <i>🩺</i> Consultation
+             Consultation
         </a>
         <a href="prescriptions.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'prescriptions.php' ? 'active' : ''; ?>">
-            <i>📝</i> Prescription
+            Prescription
         </a>
         <a href="logout.php" class="menu-item">
-            <i>🚪</i> Log out
+             Log out
         </a>
     </div>
 </div>

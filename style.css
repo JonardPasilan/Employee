@@ -75,6 +75,7 @@
   
   /* Tint the inputs slightly for better depth */
   --input-bg: hsl(222, 47%, 13%);
+  --input-border: hsl(0, 0%, 100%);
 }
 
 /* Base Styles */
@@ -90,7 +91,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
   margin: 0;
   font-weight: 700;
@@ -104,21 +105,113 @@ a {
 
 button, .btn {
   font-family: inherit;
+  font-weight: 600;
   cursor: pointer;
   border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: var(--text-base);
   transition: all var(--transition-base);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: var(--shadow-xs);
+  outline: none;
+}
+
+button:focus-visible, .btn:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-brand-light);
 }
 
 button:hover, .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 button:active, .btn:active {
   transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Button Variants */
+.btn-brand, .btn-primary {
+  background: var(--color-brand);
+  color: #ffffff;
+  border: 1px solid var(--color-brand);
+}
+.btn-brand:hover, .btn-primary:hover {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+}
+
+.btn-outline, .btn-secondary {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-strong);
+  box-shadow: none;
+}
+.btn-outline:hover, .btn-secondary:hover {
+  background: var(--color-overlay);
+  border-color: var(--color-text-primary);
+}
+
+/* Tiny (for tables) */
+.btn-tiny {
+  padding: 6px 12px;
+  font-size: var(--text-sm);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+/* Action Specific Buttons (Tables) */
+.btn-view {
+  background: hsl(210, 20%, 96%);
+  color: hsl(215, 70%, 45%);
+  border: 1px solid hsl(214, 30%, 88%);
+}
+.btn-view:hover { background: hsl(210, 20%, 90%); }
+
+.btn-edit {
+  background: hsl(35, 90%, 96%);
+  color: hsl(35, 90%, 40%);
+  border: 1px solid hsl(35, 90%, 85%);
+}
+.btn-edit:hover { background: hsl(35, 90%, 90%); }
+
+.btn-delete {
+  background: hsl(0, 75%, 97%);
+  color: var(--color-danger);
+  border: 1px solid hsl(0, 75%, 88%);
+}
+.btn-delete:hover { background: hsl(0, 75%, 92%); }
+
+.btn-consult {
+  background: hsl(150, 70%, 96%);
+  color: hsl(150, 70%, 35%);
+  border: 1px solid hsl(150, 70%, 85%);
+}
+.btn-consult:hover { background: hsl(150, 70%, 90%); }
+
+[data-theme="dark"] .btn-view {
+  background: rgba(41, 128, 185, 0.15);
+  border-color: rgba(41, 128, 185, 0.3);
+  color: hsl(210, 80%, 75%);
+}
+[data-theme="dark"] .btn-edit {
+  background: rgba(230, 126, 34, 0.15);
+  border-color: rgba(230, 126, 34, 0.3);
+  color: hsl(35, 90%, 75%);
+}
+[data-theme="dark"] .btn-delete {
+  background: rgba(231, 76, 60, 0.15);
+  border-color: rgba(231, 76, 60, 0.3);
+  color: hsl(0, 75%, 75%);
+}
+[data-theme="dark"] .btn-consult {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: rgba(46, 204, 113, 0.3);
+  color: hsl(150, 70%, 65%);
 }
 
 /* Global Transition Layer (Rule #10) */
@@ -163,8 +256,8 @@ button, a, [role="button"], input, select, textarea {
 input, select, textarea {
   width: 100%;
   padding: 10px 14px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--input-bg, var(--color-surface));
+  border: 1px solid var(--input-border, var(--color-border));
   border-radius: var(--radius-sm);
   font-size: var(--text-base);
   color: var(--color-text-primary);
