@@ -125,7 +125,7 @@ if ($mode === 'add') {
         $flashSuccess = $_GET['success'] ?? '';
         if ($flashSuccess === 'deleted'): ?>
             <div style="background: hsl(0,75%,95%); border: 1px solid hsl(0,75%,80%); color: hsl(0,50%,35%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
-                🗑️ Prescription record deleted.
+                Prescription record deleted.
             </div>
         <?php endif; ?>
 
