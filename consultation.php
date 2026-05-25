@@ -176,28 +176,80 @@ $isView = $mode === 'view';
             <?php if ($id > 0): ?>
                 <a href="consultation.php?id=<?php echo $id; ?>&mode=add" class="btn btn-brand" style="height: 38px;">+ New Consultation</a>
             <?php else: ?>
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    <select id="selectEmployeeForConsult" style="height: 38px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); min-width: 180px;">
-                        <option value="">-- Select Patient --</option>
-                        <?php
-                        $empList = $conn->query("SELECT id, name FROM employees ORDER BY name ASC");
-                        if ($empList) {
-                            while ($empRow = $empList->fetch_assoc()) {
-                                echo '<option value="' . h($empRow['id']) . '">' . h($empRow['name']) . '</option>';
-                            }
-                        }
-                        ?>
-                    </select>
+                <div style="display: flex; gap: 8px; align-items: center; position: relative;">
+                    <div style="position: relative;">
+                        <input
+                            type="text"
+                            id="patientSearchInput"
+                            placeholder="Search patient..."
+                            autocomplete="off"
+                            style="height: 38px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); min-width: 220px; font-size: var(--text-sm);"
+                            oninput="filterPatients(this.value)"
+                            onfocus="showDropdown()"
+                        >
+                        <div id="patientDropdown" style="display:none; position:absolute; top:42px; left:0; width:100%; background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-sm); box-shadow:var(--shadow-md); z-index:999; max-height:220px; overflow-y:auto;"></div>
+                    </div>
                     <button onclick="startConsultation()" class="btn btn-brand" style="height: 38px;">+ New Consultation</button>
                 </div>
                 <script>
+                const allPatients = <?php
+                    $empList = $conn->query("SELECT id, name FROM employees ORDER BY name ASC");
+                    $empArr = [];
+                    if ($empList) {
+                        while ($empRow = $empList->fetch_assoc()) {
+                            $empArr[] = ['id' => (int)$empRow['id'], 'name' => $empRow['name']];
+                        }
+                    }
+                    echo json_encode($empArr);
+                ?>;
+
+                let selectedPatientId = null;
+
+                function filterPatients(query) {
+                    selectedPatientId = null;
+                    const dropdown = document.getElementById('patientDropdown');
+                    const q = query.trim().toLowerCase();
+                    const filtered = q === '' ? allPatients : allPatients.filter(p => p.name.toLowerCase().includes(q));
+
+                    if (filtered.length === 0) {
+                        dropdown.innerHTML = '<div style="padding:10px 14px; color:var(--color-text-muted); font-size:13px;">No patients found.</div>';
+                    } else {
+                        dropdown.innerHTML = filtered.map(p =>
+                            `<div class="patient-option" data-id="${p.id}" data-name="${p.name.replace(/"/g,'&quot;')}"
+                                style="padding:10px 14px; cursor:pointer; font-size:13px; font-weight:600; border-bottom:1px solid var(--color-border);"
+                                onmousedown="selectPatient(${p.id}, '${p.name.replace(/'/g,"\\'")}')">
+                                ${p.name}
+                            </div>`
+                        ).join('');
+                    }
+                    dropdown.style.display = 'block';
+                }
+
+                function showDropdown() {
+                    filterPatients(document.getElementById('patientSearchInput').value);
+                }
+
+                function selectPatient(id, name) {
+                    selectedPatientId = id;
+                    document.getElementById('patientSearchInput').value = name;
+                    document.getElementById('patientDropdown').style.display = 'none';
+                }
+
+                document.addEventListener('click', function(e) {
+                    const input = document.getElementById('patientSearchInput');
+                    const dropdown = document.getElementById('patientDropdown');
+                    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.style.display = 'none';
+                    }
+                });
+
                 function startConsultation() {
-                    const sel = document.getElementById('selectEmployeeForConsult');
-                    if (!sel.value) {
-                        alert('Please select an employee first.');
+                    if (!selectedPatientId) {
+                        alert('Please search and select a patient first.');
+                        document.getElementById('patientSearchInput').focus();
                         return;
                     }
-                    window.location.href = 'consultation.php?id=' + sel.value + '&mode=add';
+                    window.location.href = 'consultation.php?id=' + selectedPatientId + '&mode=add';
                 }
                 </script>
             <?php endif; ?>

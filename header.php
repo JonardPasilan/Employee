@@ -236,13 +236,12 @@
         <h3>Clinic Menu</h3>
         <button class="close-menu" id="closeMenuBtn">✕</button>
     </div>
-       <hr style="margin: 16px 24px; border: 0; border-top: 1px solid var(--color-border);">
+    <div class="side-menu-content">
+        <hr style="margin: 16px 24px; border: 0; border-top: 1px solid var(--color-border);">
         <a href="employees.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'employees.php' ? 'active' : ''; ?>">
              Dashboard
-
         </a>
-
-       <a href="health.php?mode=add&id=0" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'health.php' ? 'active' : ''; ?>">
+        <a href="health.php?mode=add&id=0" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'health.php' ? 'active' : ''; ?>">
             New Profile
         </a>
         <a href="consultation.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'consultation.php' ? 'active' : ''; ?>">
@@ -251,6 +250,8 @@
         <a href="prescriptions.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'prescriptions.php' ? 'active' : ''; ?>">
             Prescription
         </a>
+    </div>
+    <div style="border-top: 1px solid var(--color-border);">
         <a href="logout.php" class="menu-item">
              Log out
         </a>

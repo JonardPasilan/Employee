@@ -235,6 +235,7 @@ $isAdd = $mode === 'add';
             <div class="step-pill" data-step-ind="9">IX. Screening</div>
             <div class="step-pill" data-step-ind="10">X. Vitals</div>
             <div class="step-pill" data-step-ind="11">XI. Final Class</div>
+            <div class="step-pill" data-step-ind="12">XII. Remarks</div>
         </div>
 
         <form id="healthWizardForm" method="POST" action="save_health.php" autocomplete="off">
@@ -425,8 +426,8 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 4: PAST MEDICAL HISTORY -->
-        <div class="wizard-page" data-step="4">
+        <!-- STEP 3: PAST MEDICAL HISTORY -->
+        <div class="wizard-page" data-step="3">
             <div class="section-title">IV. PAST MEDICAL HISTORY</div>
             
             <div class="inline-checks">
@@ -547,8 +548,8 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 8: PHYSICAL SCREENING -->
-        <div class="wizard-page" data-step="3">
+        <!-- STEP 4: PERSONAL/SOCIAL HISTORY -->
+        <div class="wizard-page" data-step="4">
             <div class="section-title">III. PERSONAL/SOCIAL HISTORY</div>
             
             <div class="form-row">
@@ -718,7 +719,7 @@ $isAdd = $mode === 'add';
             <?php endforeach; ?>
         </div>
 
-        <!-- STEP 9: ANCILLARY EXAMINATIONS -->
+        <!-- STEP 5: HOSPITAL ADMISSIONS -->
         <div class="wizard-page" data-step="5">
             <div class="section-title">V. HOSPITAL ADMISSIONS</div>
             
@@ -797,7 +798,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 10: EMPLOYEE CLASSIFICATION -->
+        <!-- STEP 6: MAINTENANCE MEDICATION AND OB/GYNE -->
         <div class="wizard-page" data-step="6">
             <div class="section-title">VI. MAINTENANCE MEDICATION AND OB/GYNE</div>
             
@@ -865,7 +866,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 11: REMARKS -->
+        <!-- STEP 7: HEAD TO TOE ASSESSMENT -->
         <div class="wizard-page" data-step="7">
             <div class="section-title">VII. HEAD TO TOE ASSESSMENT</div>
             
@@ -901,7 +902,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 3: PERSONAL/SOCIAL HISTORY -->
+        <!-- STEP 8: PHYSICAL SCREENING -->
         <div class="wizard-page" data-step="8">
             <div class="section-title">VIII. PHYSICAL SCREENING</div>
             
@@ -1024,7 +1025,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 5: HOSPITAL ADMISSION / PAST SURGICAL HISTORY / DISABILITY -->
+        <!-- STEP 9: ANCILLARY EXAMINATIONS -->
         <div class="wizard-page" data-step="9">
             <div class="section-title">IV. ANCILLARY EXAMINATIONS</div>
             <div class="form-row">
@@ -1225,7 +1226,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 6: MAINTENANCE MEDICATION AND OB/GYNE -->
+        <!-- STEP 10: EMPLOYEE CLASSIFICATION -->
         <div class="wizard-page" data-step="10">
             <div class="section-title">V. EMPLOYEE CLASSIFICATION</div>
             
@@ -1413,7 +1414,7 @@ $isAdd = $mode === 'add';
             </div>
         </div>
 
-        <!-- STEP 7: HEAD TO TOE ASSESSMENT -->
+        <!-- STEP 11: FINAL CLASS / REMARKS -->
         <div class="wizard-page" data-step="11">
             <div class="section-title">VI. REMARKS</div>
             
@@ -1658,7 +1659,7 @@ $isAdd = $mode === 'add';
         </div>
 
         <!-- STEP 8: PHYSICAL SCREENING & EXAMINATION -->
-        <div class="wizard-page" data-step="8">
+        <div class="wizard-page" data-step="8b">
             <div class="section-title">VIII. PHYSICAL SCREENING</div>
             <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px;">Please check(/) appropriate box or supply needed information.</p>
             
@@ -1822,22 +1823,22 @@ $isAdd = $mode === 'add';
 <script>
     (function () {
         const isView = <?php echo $isView ? 'true' : 'false'; ?>;
+        // Collect pages in DOM order — index 0 = step 1, index 1 = step 2, etc.
         const pages = Array.from(document.querySelectorAll('.wizard-page'));
         const pills = Array.from(document.querySelectorAll('.step-pill[data-step-ind]'));
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
         let pageIndex = 0;
+
         function showPageByIndex(idx) {
             pageIndex = Math.max(0, Math.min(idx, pages.length - 1));
             pages.forEach((p, i) => p.classList.toggle('active', i === pageIndex));
-            const stepNum = parseInt(pages[pageIndex].getAttribute('data-step'), 10) || 1;
-            pills.forEach(pi => {
-                const n = parseInt(pi.getAttribute('data-step-ind'), 10);
-                pi.classList.toggle('active', n === stepNum);
-            });
+            // Highlight the matching pill (pill data-step-ind is 1-based, pageIndex is 0-based)
+            pills.forEach((pi, i) => pi.classList.toggle('active', i === pageIndex));
             prevBtn.style.visibility = pageIndex === 0 ? 'hidden' : 'visible';
             nextBtn.style.display = pageIndex === pages.length - 1 ? 'none' : 'inline-block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         prevBtn.addEventListener('click', function () {
@@ -1846,17 +1847,15 @@ $isAdd = $mode === 'add';
         nextBtn.addEventListener('click', function () {
             if (pageIndex < pages.length - 1) showPageByIndex(pageIndex + 1);
         });
-        pills.forEach(pi => {
+        pills.forEach((pi, i) => {
             pi.addEventListener('click', function () {
-                const target = parseInt(pi.getAttribute('data-step-ind'), 10);
-                const i = pages.findIndex(p => parseInt(p.getAttribute('data-step'), 10) === target);
-                if (i !== -1) showPageByIndex(i);
+                showPageByIndex(i);
             });
         });
 
         showPageByIndex(0);
 
-        // If view mode, disable form controls (so it matches screenshot intent).
+        // If view mode, disable form controls
         if (isView) {
             document.querySelectorAll('#healthWizardForm input, #healthWizardForm select, #healthWizardForm textarea, #healthWizardForm button').forEach(el => {
                 if (el.tagName.toLowerCase() === 'button') return;

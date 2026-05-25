@@ -204,12 +204,19 @@ if ($mode === 'add') {
             <div class="grid-2">
                 <div class="field-group">
                     <label class="field-label">Select Employee (Auto-fill)</label>
-                    <select name="employee_id" id="employeeSelect" onchange="fillEmployeeDetails()">
-                        <option value="">-- Manual Entry --</option>
-                        <?php foreach($employees as $emp): ?>
-                            <option value="<?php echo h($emp['id']); ?>"><?php echo h($emp['name']); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    <div style="position: relative;">
+                        <input
+                            type="text"
+                            id="employeeSearchInput"
+                            placeholder="Search employee..."
+                            autocomplete="off"
+                            style="width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: var(--text-sm);"
+                            oninput="filterEmployees(this.value)"
+                            onfocus="showEmpDropdown()"
+                        >
+                        <input type="hidden" name="employee_id" id="employeeIdField">
+                        <div id="employeeDropdown" style="display:none; position:absolute; top:44px; left:0; width:100%; background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-sm); box-shadow:var(--shadow-md); z-index:999; max-height:220px; overflow-y:auto;"></div>
+                    </div>
                 </div>
                 <div class="field-group">
                     <label class="field-label">Clinic / Doctor</label>
@@ -316,11 +323,45 @@ if ($mode === 'add') {
 
 <script>
     const employees = <?php echo json_encode($employees); ?>;
-    
-    function fillEmployeeDetails() {
-        const select = document.getElementById('employeeSelect');
-        const id = select.value;
-        
+
+    function filterEmployees(query) {
+        const dropdown = document.getElementById('employeeDropdown');
+        const q = query.trim().toLowerCase();
+        const filtered = q === '' ? employees : employees.filter(e => e.name.toLowerCase().includes(q));
+
+        if (filtered.length === 0) {
+            dropdown.innerHTML = '<div style="padding:10px 14px; color:var(--color-text-muted); font-size:13px;">No employees found.</div>';
+        } else {
+            dropdown.innerHTML = filtered.map(e =>
+                `<div style="padding:10px 14px; cursor:pointer; font-size:13px; font-weight:600; border-bottom:1px solid var(--color-border);"
+                    onmousedown="selectEmployee(${e.id}, '${e.name.replace(/'/g, "\\'")}')">
+                    ${e.name}
+                </div>`
+            ).join('');
+        }
+        dropdown.style.display = 'block';
+    }
+
+    function showEmpDropdown() {
+        filterEmployees(document.getElementById('employeeSearchInput').value);
+    }
+
+    function selectEmployee(id, name) {
+        document.getElementById('employeeSearchInput').value = name;
+        document.getElementById('employeeIdField').value = id;
+        document.getElementById('employeeDropdown').style.display = 'none';
+        fillEmployeeDetails(id);
+    }
+
+    document.addEventListener('click', function(e) {
+        const input = document.getElementById('employeeSearchInput');
+        const dropdown = document.getElementById('employeeDropdown');
+        if (input && !input.contains(e.target) && dropdown && !dropdown.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    function fillEmployeeDetails(id) {
         if (!id) {
             document.getElementById('nameField').value = '';
             document.getElementById('ageField').value = '';
@@ -335,14 +376,9 @@ if ($mode === 'add') {
         if (emp) {
             document.getElementById('nameField').value = emp.name || '';
             document.getElementById('ageField').value = emp.age || '';
-            
-            // Set Gender
+
             const g = document.getElementById('genderField');
-            if(emp.sex === 'Male' || emp.sex === 'Female') {
-                g.value = emp.sex;
-            } else {
-                g.value = '';
-            }
+            g.value = (emp.sex === 'Male' || emp.sex === 'Female') ? emp.sex : '';
 
             document.getElementById('addrField').value = emp.address || '';
             document.getElementById('officeField').value = emp.department || '';

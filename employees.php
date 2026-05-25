@@ -70,7 +70,7 @@ $totalPages = max(1, (int)ceil($totalFiltered / $limit));
 $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $limit OFFSET $offset");
 ?>
 
-<div class="container employees-page">
+<div class="container employees-page" style="max-width: 100%; padding: 24px 32px;">
     <style>
         /* Contextual overrides for Employees dashboard */
         .page-header {
