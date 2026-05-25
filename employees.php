@@ -35,6 +35,7 @@ function post_search_like(string $s): string {
 
 $search = isset($_GET['search']) ? post_search_like((string)$_GET['search']) : '';
 $office_filter = isset($_GET['office']) ? trim((string)$_GET['office']) : '';
+$class_filter = isset($_GET['class']) ? trim((string)$_GET['class']) : '';
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $limit = 10;
 $offset = ($page - 1) * $limit;
@@ -59,6 +60,10 @@ if ($search !== '') {
 if ($office_filter !== '') {
     $safeOffice = $conn->real_escape_string($office_filter);
     $whereClauses[] = "department = '$safeOffice'";
+}
+if ($class_filter !== '') {
+    $safeClass = $conn->real_escape_string($class_filter);
+    $whereClauses[] = "id IN (SELECT employee_id FROM employee_health_profiles WHERE class_type = '$safeClass')";
 }
 
 $whereSql = count($whereClauses) > 0 ? "WHERE " . implode(' AND ', $whereClauses) : "";
@@ -97,6 +102,12 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
             flex-direction: column;
             gap: 4px;
             border-top: 4px solid var(--color-brand);
+            transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         /* Specific tints for classes to avoid rainbow syndrome while maintaining semantics */
@@ -311,22 +322,22 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
+        <a href="employees.php" class="stat-card" style="text-decoration:none; cursor:pointer;">
             <div class="label">Total Employees</div>
             <div class="value"><?php echo (int)$totalEmployees; ?></div>
-        </div>
-        <div class="stat-card class-a">
+        </a>
+        <a href="employees.php?class=REGULAR" class="stat-card class-a" style="text-decoration:none; cursor:pointer;">
             <div class="label">REGULAR</div>
             <div class="value"><?php echo (int)$classCounts['REGULAR']; ?></div>
-        </div>
-        <div class="stat-card class-b">
+        </a>
+        <a href="employees.php?class=JOB+ORDER" class="stat-card class-b" style="text-decoration:none; cursor:pointer;">
             <div class="label">JOB ORDER</div>
             <div class="value"><?php echo (int)$classCounts['JOB ORDER']; ?></div>
-        </div>
-        <div class="stat-card class-c">
+        </a>
+        <a href="employees.php?class=CONTRACT+OF+SERVICE" class="stat-card class-c" style="text-decoration:none; cursor:pointer;">
             <div class="label">CONTRACT OF SERVICE</div>
             <div class="value"><?php echo (int)$classCounts['CONTRACT OF SERVICE']; ?></div>
-        </div>
+        </a>
     </div>
 
     <div class="toolbar">
@@ -479,6 +490,7 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
             $queryBase = [];
             if ($search !== '') $queryBase[] = 'search=' . urlencode($search);
             if ($office_filter !== '') $queryBase[] = 'office=' . urlencode($office_filter);
+            if ($class_filter !== '') $queryBase[] = 'class=' . urlencode($class_filter);
             $queryStr = count($queryBase) > 0 ? ('?' . implode('&', $queryBase) . '&') : '?';
 
             echo '<a class="page-item" href="employees.php' . $queryStr . 'page=1">First</a>';
