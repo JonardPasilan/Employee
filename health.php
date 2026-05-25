@@ -429,118 +429,196 @@ $isAdd = $mode === 'add';
         <!-- STEP 3: PAST MEDICAL HISTORY -->
         <div class="wizard-page" data-step="3">
             <div class="section-title">IV. PAST MEDICAL HISTORY</div>
-            
-            <div class="inline-checks">
-                <div class="check">
+
+            <style>
+                .pmh-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                }
+                @media (max-width: 700px) {
+                    .pmh-grid { grid-template-columns: 1fr; }
+                }
+                .pmh-item {
+                    display: grid;
+                    grid-template-columns: 20px 1fr;
+                    align-items: start;
+                    gap: 10px;
+                    padding: 12px 14px;
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-sm);
+                    background: var(--color-canvas);
+                    min-height: 48px;
+                }
+                .pmh-item input[type="checkbox"] {
+                    width: 16px;
+                    height: 16px;
+                    margin-top: 2px;
+                    flex-shrink: 0;
+                    accent-color: var(--color-brand);
+                    cursor: pointer;
+                }
+                .pmh-item-body {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+                .pmh-item-label {
+                    font-weight: 700;
+                    font-size: var(--text-sm);
+                    color: var(--color-text-primary);
+                    line-height: 1.4;
+                }
+                .pmh-item-input {
+                    width: 100%;
+                    padding: 5px 10px;
+                    font-size: var(--text-sm);
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-xs);
+                    background: var(--color-surface);
+                    color: var(--color-text-primary);
+                }
+                .pmh-item-input:focus {
+                    border-color: var(--color-brand);
+                    box-shadow: 0 0 0 2px var(--color-brand-light);
+                    outline: none;
+                }
+                .pmh-full {
+                    grid-column: 1 / -1;
+                }
+            </style>
+
+            <div class="pmh-grid">
+
+                <div class="pmh-item">
                     <input type="checkbox" name="past_allergy" value="1" <?php echo !empty($pastMedical['allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Allergy</span>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Allergy</span>
+                    </div>
                 </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_food_allergy" value="1" <?php echo !empty($pastMedical['food_allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Food</div>
-                        <input type="text" name="food_allergy_specify" value="<?php echo h($pastMedical['food_allergy_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Food Allergy</span>
+                        <input type="text" class="pmh-item-input" name="food_allergy_specify" value="<?php echo h($pastMedical['food_allergy_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_drug_allergy" value="1" <?php echo !empty($pastMedical['drug_allergy']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Drug</span>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Drug Allergy</span>
+                    </div>
                 </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_epilepsy_seizure_disorder" value="1" <?php echo !empty($pastMedical['epilepsy_seizure_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Epilepsy/Seizure Disorder</div>
-                        <input type="text" name="epilepsy_specify" value="<?php echo h($pastMedical['epilepsy_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Epilepsy / Seizure Disorder</span>
+                        <input type="text" class="pmh-item-input" name="epilepsy_specify" value="<?php echo h($pastMedical['epilepsy_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_asthma" value="1" <?php echo !empty($pastMedical['asthma']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Asthma</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Asthma</span>
+                    </div>
+                </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_congenital_heart_disorder" value="1" <?php echo !empty($pastMedical['congenital_heart_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Congenital Heart Disorder</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Congenital Heart Disorder</span>
+                    </div>
+                </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_thyroid_disease" value="1" <?php echo !empty($pastMedical['thyroid_disease']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Thyroid Disease</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Thyroid Disease</span>
+                    </div>
+                </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_skin_disorder" value="1" <?php echo !empty($pastMedical['skin_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Skin Disorder</div>
-                        <input type="text" name="skin_disorder_specify" value="<?php echo h($pastMedical['skin_disorder_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Skin Disorder</span>
+                        <input type="text" class="pmh-item-input" name="skin_disorder_specify" value="<?php echo h($pastMedical['skin_disorder_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_cancer" value="1" <?php echo !empty($pastMedical['cancer']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Cancer</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Cancer</span>
+                    </div>
+                </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_diabetes_heart_disorder" value="1" <?php echo !empty($pastMedical['diabetes_heart_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Diabetes Heart Disorder</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Diabetes / Heart Disorder</span>
+                    </div>
+                </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_peptic_ulcer" value="1" <?php echo !empty($pastMedical['peptic_ulcer']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Peptic Ulcer</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Peptic Ulcer</span>
+                    </div>
+                </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_tuberculosis" value="1" <?php echo !empty($pastMedical['tuberculosis']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Tuberculosis</div>
-                        <input type="text" name="tuberculosis_specify" value="<?php echo h($pastMedical['tuberculosis_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Tuberculosis</span>
+                        <input type="text" class="pmh-item-input" name="tuberculosis_specify" value="<?php echo h($pastMedical['tuberculosis_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_coronary_artery_disease" value="1" <?php echo !empty($pastMedical['coronary_artery_disease']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">Coronary Artery Disease</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Coronary Artery Disease</span>
+                    </div>
+                </div>
 
-                <div class="check" style="grid-column:1 / -1;"></div>
-
-                <label class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_pcos" value="1" <?php echo !empty($pastMedical['pcos']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <span style="font-weight:800;color:var(--color-text-primary);">PCOS</span>
-                </label>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">PCOS</span>
+                    </div>
+                </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_hepatitis" value="1" <?php echo !empty($pastMedical['hepatitis']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Hepatitis</div>
-                        <input type="text" name="hepatitis_specify" value="<?php echo h($pastMedical['hepatitis_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Hepatitis</span>
+                        <input type="text" class="pmh-item-input" name="hepatitis_specify" value="<?php echo h($pastMedical['hepatitis_specify'] ?? ''); ?>" placeholder="Specify type..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <div class="check">
+                <div class="pmh-item">
                     <input type="checkbox" name="past_hypertension_elevated_bp" value="1" <?php echo !empty($pastMedical['hypertension_elevated_bp']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Hypertension/Elevated BP</div>
-                        <input type="text" name="hypertension_specify" value="<?php echo h($pastMedical['hypertension_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Hypertension / Elevated BP</span>
+                        <input type="text" class="pmh-item-input" name="hypertension_specify" value="<?php echo h($pastMedical['hypertension_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
 
-                <div class="check">
+                <div class="pmh-item pmh-full">
                     <input type="checkbox" name="past_psychological_disorder" value="1" <?php echo !empty($pastMedical['psychological_disorder']) ? 'checked' : ''; ?> <?php echo $isView ? 'disabled' : ''; ?>>
-                    <div>
-                        <div style="font-weight:800;color:var(--color-text-primary);margin-bottom:6px;">Psychological Disorder</div>
-                        <input type="text" name="psychological_disorder_specify" value="<?php echo h($pastMedical['psychological_disorder_specify'] ?? ''); ?>" <?php echo $isView ? 'disabled' : ''; ?>>
+                    <div class="pmh-item-body">
+                        <span class="pmh-item-label">Psychological Disorder</span>
+                        <input type="text" class="pmh-item-input" name="psychological_disorder_specify" value="<?php echo h($pastMedical['psychological_disorder_specify'] ?? ''); ?>" placeholder="Specify..." <?php echo $isView ? 'disabled' : ''; ?>>
                     </div>
                 </div>
+
             </div>
 
-            <div class="form-row" style="margin-top:14px;">
+            <div class="form-row" style="margin-top:16px;">
                 <div class="field" style="grid-column:1 / -1;">
                     <label>Others</label>
                     <textarea name="other_findings" <?php echo $isView ? 'disabled' : ''; ?>><?php echo h($pastMedical['other_findings'] ?? ''); ?></textarea>

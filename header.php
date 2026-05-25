@@ -295,3 +295,99 @@
         if (e.key === 'Escape') closeMenu();
     });
 </script>
+
+<!-- ── GLOBAL TOAST CONTAINER ─────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ── GLOBAL DELETE MODAL ────────────────────────────────── -->
+<div id="globalDeleteModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-icon danger">🗑️</div>
+            <h3 id="deleteModalTitle">Delete Record</h3>
+        </div>
+        <div class="modal-body">
+            <strong>This action cannot be undone.</strong><br>
+            Are you sure you want to permanently delete this record?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" onclick="closeGlobalDeleteModal()">Cancel</button>
+            <button type="button" class="btn btn-danger" id="globalDeleteConfirmBtn">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ── Toast System ──────────────────────────────────────────────
+function showToast(message, type = 'success', duration = 3500) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.innerHTML =
+        '<span class="toast-icon">' + (icons[type] || icons.info) + '</span>' +
+        '<span style="flex:1;">' + message + '</span>' +
+        '<button class="toast-close" onclick="dismissToast(this.parentElement)" aria-label="Close">✕</button>';
+    container.appendChild(toast);
+    requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+    toast._timer = setTimeout(() => dismissToast(toast), duration);
+}
+
+function dismissToast(toast) {
+    if (!toast || toast._dismissed) return;
+    toast._dismissed = true;
+    clearTimeout(toast._timer);
+    toast.classList.remove('show');
+    toast.classList.add('hide');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+}
+
+// ── Global Delete Modal ───────────────────────────────────────
+let _deleteCallback = null;
+
+function openGlobalDeleteModal(onConfirm, options) {
+    options = options || {};
+    _deleteCallback = onConfirm;
+    const modal = document.getElementById('globalDeleteModal');
+    document.getElementById('deleteModalTitle').textContent = options.title || 'Delete Record';
+    modal.querySelector('.modal-body').innerHTML =
+        '<strong>' + (options.warning || 'This action cannot be undone.') + '</strong><br>' +
+        (options.message || 'Are you sure you want to permanently delete this record?');
+    document.getElementById('globalDeleteConfirmBtn').textContent = options.btnLabel || 'Delete';
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => modal.querySelector('.btn-outline').focus(), 50);
+}
+
+function closeGlobalDeleteModal() {
+    document.getElementById('globalDeleteModal').classList.remove('is-open');
+    document.body.style.overflow = '';
+    _deleteCallback = null;
+}
+
+document.getElementById('globalDeleteConfirmBtn').addEventListener('click', function () {
+    if (typeof _deleteCallback === 'function') _deleteCallback();
+    closeGlobalDeleteModal();
+});
+
+document.getElementById('globalDeleteModal').addEventListener('click', function (e) {
+    if (e.target === this) closeGlobalDeleteModal();
+});
+
+// ── Auto-show flash toasts from URL params ────────────────────
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const success = params.get('success');
+    const error   = params.get('error');
+    const map = {
+        'consultation_saved':   ['Consultation record saved.', 'success'],
+        'consultation_updated': ['Consultation record updated.', 'success'],
+        'deleted':              ['Record deleted successfully.', 'info'],
+        'save_failed':          ['Failed to save. Please try again.', 'error'],
+        'employee_deleted':     ['Employee record deleted.', 'info'],
+    };
+    if (success && map[success]) showToast(map[success][0], map[success][1]);
+    if (error   && map[error])   showToast(map[error][0],   map[error][1]);
+})();
+</script>

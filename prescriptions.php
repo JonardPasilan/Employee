@@ -34,6 +34,8 @@ $conn->query("
 $mode = strtolower(trim((string)($_GET['mode'] ?? 'list')));
 if (!in_array($mode, ['list', 'add'], true)) $mode = 'list';
 
+$preselectedEmployeeId = intval($_GET['employee_id'] ?? 0);
+
 // Fetch all employees for the dropdown in add mode
 $employees = [];
 if ($mode === 'add') {
@@ -122,12 +124,9 @@ if ($mode === 'add') {
     <?php if ($mode === 'list'): ?>
     <div class="consult-container">
         <?php
+        // Flash messages handled by global toast system (header.php)
         $flashSuccess = $_GET['success'] ?? '';
-        if ($flashSuccess === 'deleted'): ?>
-            <div style="background: hsl(0,75%,95%); border: 1px solid hsl(0,75%,80%); color: hsl(0,50%,35%); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display:flex; align-items:center; gap:8px;">
-                Prescription record deleted.
-            </div>
-        <?php endif; ?>
+        ?>
 
         <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 0; font-size: var(--text-lg); color: var(--color-text-primary);">Prescriptions History Log</h3>
@@ -220,7 +219,7 @@ if ($mode === 'add') {
                 </div>
                 <div class="field-group">
                     <label class="field-label">Clinic / Doctor</label>
-                    <input type="text" name="clinic_doctor" placeholder="e.g. Dr. Juan dela Cruz" required>
+                    <input type="text" name="clinic_doctor" placeholder="e.g. Dr. Val Acosta" required>
                 </div>
             </div>
 
@@ -323,6 +322,7 @@ if ($mode === 'add') {
 
 <script>
     const employees = <?php echo json_encode($employees); ?>;
+    const preselectedId = <?php echo $preselectedEmployeeId; ?>;
 
     function filterEmployees(query) {
         const dropdown = document.getElementById('employeeDropdown');
@@ -385,6 +385,12 @@ if ($mode === 'add') {
             document.getElementById('catField').value = emp.category || '';
         }
     }
+
+    // Auto-fill if coming from consultation page with a pre-selected employee
+    if (preselectedId > 0) {
+        const emp = employees.find(e => e.id == preselectedId);
+        if (emp) selectEmployee(emp.id, emp.name);
+    }
 </script>
 
 <!-- HIDDEN DELETE FORM -->
@@ -394,39 +400,17 @@ if ($mode === 'add') {
     <input type="hidden" name="delete" value="1">
 </form>
 
-<!-- DELETE MODAL -->
-<div id="deleteModal" class="modal" role="dialog" aria-modal="true" onclick="if(event.target===this) closeModal();">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Confirm Deletion</h3>
-        </div>
-        <div class="modal-body">
-            <p>Are you sure you want to permanently delete this record? This action cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
-            <button type="button" class="btn btn-brand" style="background:var(--color-danger);" onclick="deleteNow()">Delete Record</button>
-        </div>
-    </div>
-</div>
-
 <script>
-let deleteId = 0;
-let deleteType = '';
-
 function confirmDelete(id, type) {
-    deleteId = id;
-    deleteType = type;
-    document.getElementById("deleteModal").classList.add("is-open");
-}
-
-function closeModal() {
-    document.getElementById("deleteModal").classList.remove("is-open");
-}
-
-function deleteNow() {
-    document.getElementById("deleteId").value = deleteId;
-    document.getElementById("deleteType").value = deleteType;
-    document.getElementById("deleteForm").submit();
+    openGlobalDeleteModal(function () {
+        document.getElementById('deleteId').value = id;
+        document.getElementById('deleteType').value = type;
+        document.getElementById('deleteForm').submit();
+    }, {
+        title: 'Delete Prescription',
+        warning: 'This action cannot be undone.',
+        message: 'The prescription record will be permanently removed.',
+        btnLabel: 'Delete Record'
+    });
 }
 </script>

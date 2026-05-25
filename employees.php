@@ -237,11 +237,11 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
         th {
             text-align: left;
             padding: 16px 12px;
-            font-weight: 700;
-            color: var(--color-text-secondary);
+            font-weight: 800;
+            color: var(--color-text-primary);
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         td {
@@ -402,7 +402,7 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
                     <th>Department</th>
                     <th>Status</th>
                     <th>Class</th>
-                    <th style="width: 200px;">Actions</th>
+                    <th style="width: 240px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -474,6 +474,7 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
                         echo '<a class="btn btn-tiny btn-edit" href="health.php?id=' . $eid . '&mode=edit">Edit</a>';
                         echo '<a class="btn btn-tiny btn-view" href="health.php?id=' . $eid . '&mode=view">View</a>';
                         echo '<a class="btn btn-tiny btn-consult" href="consultation.php?id=' . $eid . '&mode=list">Consult</a>';
+                        echo '<a class="btn btn-tiny btn-consult" href="prescriptions.php?mode=add&employee_id=' . $eid . '">Rx</a>';
                         echo '<button class="btn btn-tiny btn-delete" type="button" onclick="confirmDelete(' . $eid . ')">Del</button>';
                         echo '</div>';
                         echo '</td>';
@@ -513,36 +514,16 @@ $r = $conn->query("SELECT * FROM employees $whereSql ORDER BY id DESC LIMIT $lim
     <input type="hidden" name="delete" value="1">
 </form>
 
-<!-- DELETE MODAL -->
-<div id="deleteModal" class="modal" role="dialog" aria-modal="true" onclick="if(event.target===this) closeModal();">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Confirm Deletion</h3>
-        </div>
-        <div class="modal-body">
-            <p>Are you sure you want to permanently delete this employee record? This action cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
-            <button type="button" class="btn btn-brand" style="background:var(--color-danger);" onclick="deleteNow()">Delete Record</button>
-        </div>
-    </div>
-</div>
-
 <script>
-let deleteId = 0;
-
-function confirmDelete(id){
-    deleteId = id;
-    document.getElementById("deleteModal").classList.add("is-open");
-}
-
-function closeModal(){
-    document.getElementById("deleteModal").classList.remove("is-open");
-}
-
-function deleteNow(){
-    document.getElementById("deleteId").value = deleteId;
-    document.getElementById("deleteForm").submit();
+function confirmDelete(id) {
+    openGlobalDeleteModal(function () {
+        document.getElementById('deleteId').value = id;
+        document.getElementById('deleteForm').submit();
+    }, {
+        title: 'Delete Employee',
+        warning: 'This action cannot be undone.',
+        message: 'All health profiles and records linked to this employee will also be removed.',
+        btnLabel: 'Delete Employee'
+    });
 }
 </script>
